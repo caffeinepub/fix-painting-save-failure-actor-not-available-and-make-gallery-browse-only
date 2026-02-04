@@ -1,0 +1,48 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Fix actor initialization save failures and make Gallery browse-only",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Disable painting save until the backend actor is initialized, and surface a clear UI error if initialization fails so the user cannot hit \"Actor not available\" during save.",
+      "acceptanceCriteria": [
+        "On the Draw page, the \"Complete\" action cannot be triggered while the backend actor is still loading/initializing.",
+        "If actor initialization fails (e.g., agent/identity/config/access-control init error), the UI shows an English error message indicating saving is unavailable, and the save action remains disabled until recovery (e.g., refresh/relogin).",
+        "After actor initialization succeeds, saving a painting works without ever throwing the client-side error string \"Actor not available\"."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useActorStatus.ts",
+          "operation": "create",
+          "description": "Add a small helper hook that reads the React Query state for the existing actor query (including loading/error) using the current identity principal to construct the same queryKey, so UI screens can reliably know when the actor is initializing vs failed vs ready without modifying read-only hooks."
+        },
+        {
+          "path": "frontend/src/pages/DrawPage.tsx",
+          "operation": "modify",
+          "description": "Use the actor status (loading/error/ready) to gate the \"Complete\" action: keep the button disabled while the actor is initializing; if actor initialization failed, show an English on-screen message (and/or toast) indicating saving is unavailable and keep \"Complete\" disabled until recovery (e.g., refresh/relogin). Also ensure handleComplete returns early when actor is not ready so the mutation is never invoked during initialization."
+        },
+        {
+          "path": "frontend/src/hooks/mutations/useCompletePainting.ts",
+          "operation": "modify",
+          "description": "Replace the thrown client-side error message string \"Actor not available\" with an English user-friendly error message that does not contain that exact string, as a defense-in-depth fallback if the mutation is ever invoked before actor readiness."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Make Gallery browse-only by removing empty-state calls-to-action that navigate to Draw, while keeping the dashboard Gallery tile for browsing existing paintings.",
+      "acceptanceCriteria": [
+        "When the gallery list is empty, the Gallery page displays an English empty-state message and does not show any button/link that navigates to the Draw page (e.g., no \"Create the First One\" button).",
+        "The dashboard \"Gallery\" tile continues to navigate to the Gallery page for browsing, but does not provide any creation/editing affordance from within the Gallery empty state."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/GalleryPage.tsx",
+          "operation": "modify",
+          "description": "Update the empty state to be read-only: remove the button/link that navigates to the Draw page and replace it with an English browse-only message indicating there are no paintings to display yet."
+        }
+      ]
+    }
+  ]
+}

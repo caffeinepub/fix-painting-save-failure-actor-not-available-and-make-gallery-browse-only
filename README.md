@@ -1,2 +1,3 @@
-# fix-painting-save-failure-actor-not-available-and-make-gallery-browse-only
-Exported from Caffeine project: Fix painting save failure (Actor not available) and make Gallery browse-only
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

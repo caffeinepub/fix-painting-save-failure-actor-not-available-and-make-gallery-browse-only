@@ -1,0 +1,180 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 11,
+  "summary": "ICP dapp scaffold implemented: Motoko backend with authorization + blob storage, and a React (Vite) + Tailwind/shadcn-ui frontend for creating drawings, saving paintings, browsing a gallery, viewing painting details, rating, sharing, and managing a user profile via Internet Identity.",
+  "existing_features": [
+    {
+      "id": "IF-1",
+      "title": "Internet Identity authentication and current user session handling",
+      "synonyms": [
+        "II login",
+        "Internet Identity",
+        "auth"
+      ],
+      "description": "Frontend integrates Internet Identity for sign-in and provides hooks/utilities to access the authenticated principal and backend actor.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-2",
+      "title": "Backend authorization and access control layer",
+      "synonyms": [
+        "authorization mixin",
+        "access-control"
+      ],
+      "description": "Motoko authorization mixin and access-control module to gate backend operations by caller identity/permissions.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-3",
+      "title": "Backend blob storage canister integration",
+      "synonyms": [
+        "blob-storage",
+        "storage canister"
+      ],
+      "description": "Motoko blob storage modules for storing and retrieving binary painting/image data, used by the app storage client.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-4",
+      "title": "Drawing canvas with tools and color palette",
+      "synonyms": [
+        "canvas",
+        "draw page",
+        "tools"
+      ],
+      "description": "Frontend drawing experience including a DrawingCanvas, ToolBar, and ColorPalette for creating paintings.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-5",
+      "title": "Save/complete painting flow",
+      "synonyms": [
+        "complete painting",
+        "persist drawing"
+      ],
+      "description": "Mutation flow to finalize a drawing and persist it via the backend/storage integration.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-6",
+      "title": "Gallery browsing and painting cards/grid",
+      "synonyms": [
+        "gallery",
+        "painting grid"
+      ],
+      "description": "Gallery page UI with PaintingGrid and PaintingCard to browse saved paintings.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-7",
+      "title": "Painting detail view with image rendering",
+      "synonyms": [
+        "painting detail",
+        "painting image"
+      ],
+      "description": "Detail page for a single painting, including rendering/loading the painting image.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-8",
+      "title": "Ratings system UI and data fetching",
+      "synonyms": [
+        "rating control",
+        "ratings"
+      ],
+      "description": "RatingControl component and ratings query hook to display and submit ratings for paintings.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-9",
+      "title": "Share link/button support",
+      "synonyms": [
+        "share",
+        "deep link"
+      ],
+      "description": "ShareButton and URL parameter utilities to support sharing/navigating to specific paintings.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-10",
+      "title": "User profile setup modal and caller profile query",
+      "synonyms": [
+        "profile setup",
+        "user profile"
+      ],
+      "description": "ProfileSetupModal and caller profile query hook to manage basic user profile information.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-11",
+      "title": "App layout, routing, and main pages",
+      "synonyms": [
+        "dashboard",
+        "routes"
+      ],
+      "description": "AppHeader and pages for Dashboard, Draw, Gallery, and Painting Detail wired into the main React app.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "IF-12",
+      "title": "Project build/deploy template for ICP (Dockerfile/scripts/canister YAML)",
+      "synonyms": [
+        "build template",
+        "deploy scripts"
+      ],
+      "description": "Included build-template assets (Dockerfile, deploy scripts, canister configs) and frontend/back-end canister configuration for ICP deployment.",
+      "reqIds": [],
+      "version": 1
+    },
+    {
+      "id": "feature-prevent-the-failed-to-save-painting-actor-not-available-error-by-ensuring-the-backend-actor-is-initialized-before-the-user-can-attempt-to-save-a-painting-and-by-providing-a-clear-user-facing-error-if-actor-initialization-fails",
+      "title": "Prevent the \"Failed to save painting: Actor not available\" error by ensuring the backend actor is initialized before the user can attempt to save a painting, and by providing a clear user-facing error if actor initialization fails.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-gallery-experience-so-it-is-read-only-browsing-remove-any-calls-to-action-or-navigation-from-the-gallery-page-that-encourage-creating-a-new-painting-when-the-gallery-is-empty-and-ensure-the-gallery-entry-point-only-supports-viewing-existing-paintings",
+      "title": "Update the Gallery experience so it is read-only browsing: remove any calls-to-action or navigation from the Gallery page that encourage creating a new painting when the gallery is empty, and ensure the Gallery entry point only supports viewing existing paintings.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Ensure 'View Gallery' tile is read-only: only allows browsing existing paintings (no editing/creation actions from gallery).",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "architectural_notes": [
+    "Backend implemented in Motoko with separate authorization/access-control and blob-storage modules.",
+    "Frontend implemented in React + Vite with Tailwind CSS and shadcn/ui component library.",
+    "Auth uses Internet Identity; frontend uses actor-based hooks to call canisters.",
+    "Binary painting/image data is handled via a storage client backed by the blob storage canister.",
+    "Authorization and blob-storage Motoko modules updated to component versions v4.0.0 (component:authorization:v4.0.0, component:blob-storage:v4.0.0).",
+    "Build template and core infrastructure refreshed (component:core-infrastructure:v1.0.2) including updated ICP YAML/scripts and React+shadcn-ui frontend template files."
+  ],
+  "known_issues": [
+    "Saving a painting fails with error: 'Actor not available' (likely actor initialization/auth/session issue)."
+  ],
+  "isFixRequest": true,
+  "projectName": "Fix painting save failure (Actor not available) and make Gallery browse-only",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
